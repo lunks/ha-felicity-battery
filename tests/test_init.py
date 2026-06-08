@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import aiohttp
 from homeassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
@@ -25,6 +26,20 @@ async def test_setup_and_unload(
     assert await hass.config_entries.async_unload(mock_config_entry.entry_id)
     await hass.async_block_till_done()
     assert mock_config_entry.state is ConfigEntryState.NOT_LOADED
+
+
+async def test_setup_connection_error_not_ready(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """A connection error during device-info fetch raises not-ready."""
+    aioclient_mock.post(LOGIN_ENDPOINT, exc=aiohttp.ClientError("boom"))
+    mock_config_entry.add_to_hass(hass)
+
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
 
 
 async def test_setup_snapshot_error_not_ready(

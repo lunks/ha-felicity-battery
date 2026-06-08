@@ -5,6 +5,8 @@ from __future__ import annotations
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_SCAN_INTERVAL, Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers.update_coordinator import UpdateFailed
 
 from .const import CONF_DEVICE_SN, CONF_PASSWORD, CONF_USERNAME, DEFAULT_SCAN_INTERVAL
 from .coordinator import FelicityBatteryCoordinator
@@ -25,7 +27,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: FelicityConfigEntry) -> 
         scan_interval=entry.data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
     )
 
-    await coordinator.fetch_device_info()
+    try:
+        await coordinator.fetch_device_info()
+    except UpdateFailed as err:
+        raise ConfigEntryNotReady(str(err)) from err
+
     await coordinator.async_config_entry_first_refresh()
 
     entry.runtime_data = coordinator

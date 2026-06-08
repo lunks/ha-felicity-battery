@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import logging
+import re
 import ssl
 from datetime import datetime, timedelta
+from typing import Any
 
 import aiohttp
 from homeassistant.config_entries import ConfigEntry
@@ -13,7 +15,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .config_flow import async_login
+from .api import async_login
 from .const import (
     API_BASE_URL,
     API_HEADERS,
@@ -26,7 +28,7 @@ from .ssl_context import get_ssl_context
 _LOGGER = logging.getLogger(__name__)
 
 
-class FelicityBatteryCoordinator(DataUpdateCoordinator):
+class FelicityBatteryCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Coordinator to poll the Felicity Solar API."""
 
     def __init__(
@@ -106,8 +108,6 @@ class FelicityBatteryCoordinator(DataUpdateCoordinator):
     @staticmethod
     def _parse_utc_offset(tz_str: str) -> timedelta:
         """Parse 'UTC-03:00' or 'UTC+05:30' to a timedelta."""
-        import re
-
         match = re.match(r"UTC([+-])(\d{2}):(\d{2})", tz_str or "")
         if not match:
             return timedelta(hours=0)
@@ -151,7 +151,9 @@ class FelicityBatteryCoordinator(DataUpdateCoordinator):
                         self.device_alias = device.get("alias")
                         break
         except aiohttp.ClientError as err:
-            _LOGGER.warning("Failed to fetch device info: %s", err)
+            # Surface connectivity problems so setup retries rather than
+            # silently proceeding with missing device metadata.
+            raise UpdateFailed(f"Failed to fetch device info: {err}") from err
 
         # Fetch timezone from plant list
         try:
