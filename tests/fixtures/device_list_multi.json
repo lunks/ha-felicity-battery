@@ -1,0 +1,18 @@
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "dataList": [
+      {
+        "deviceSn": "SN123456",
+        "alias": "Garage Battery",
+        "deviceModel": "FLA24100-EU"
+      },
+      {
+        "deviceSn": "SN999999",
+        "alias": "Shed Battery",
+        "deviceModel": "FLA24100-EU"
+      }
+    ]
+  }
+}

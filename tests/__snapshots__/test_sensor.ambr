@@ -1,0 +1,40 @@
+# serializer version: 1
+# name: test_sensor_states[sensor.garage_battery_capacity]
+  <state sensor.garage_battery_capacity=5.12; state_class=measurement, unit_of_measurement=kWh, device_class=energy_storage, icon=mdi:battery-high, friendly_name=Garage Battery Capacity @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_cell_voltage_delta]
+  <state sensor.garage_battery_cell_voltage_delta=0.005; state_class=measurement, cell_1=3.201, cell_2=3.202, cell_3=3.2, cell_4=3.203, cell_5=3.199, cell_6=3.204, cell_7=3.2, cell_8=3.201, max_cell=3.204, max_cell_number=6, min_cell=3.199, min_cell_number=5, unit_of_measurement=V, device_class=voltage, icon=mdi:battery-sync, friendly_name=Garage Battery Cell Voltage Delta @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_charge_current_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_charge_voltage_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_current]
+  <state sensor.garage_battery_current=12.5; state_class=measurement, unit_of_measurement=A, device_class=current, friendly_name=Garage Battery Current @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_discharge_current_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_discharge_voltage_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_last_update]
+  <state sensor.garage_battery_last_update=2026-06-08T17:30:00+00:00; device_class=timestamp, icon=mdi:clock-check-outline, friendly_name=Garage Battery Last Update @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_power]
+  <state sensor.garage_battery_power=640.0; state_class=measurement, unit_of_measurement=W, device_class=power, friendly_name=Garage Battery Power @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_state_of_charge]
+  <state sensor.garage_battery_state_of_charge=87.0; state_class=measurement, unit_of_measurement=%, device_class=battery, friendly_name=Garage Battery State of Charge @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_state_of_health]
+  <state sensor.garage_battery_state_of_health=99.0; state_class=measurement, unit_of_measurement=%, icon=mdi:battery-heart-variant, friendly_name=Garage Battery State of Health @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_temperature]
+  <state sensor.garage_battery_temperature=24.0; state_class=measurement, sensor_1=23.5, sensor_2=24.0, sensor_3=23.8, sensor_4=24.2, unit_of_measurement=°C, device_class=temperature, friendly_name=Garage Battery Temperature @ 2026-06-08T05:00:00-07:00>
+# ---
+# name: test_sensor_states[sensor.garage_battery_voltage]
+  <state sensor.garage_battery_voltage=51.2; state_class=measurement, unit_of_measurement=V, device_class=voltage, friendly_name=Garage Battery Voltage @ 2026-06-08T05:00:00-07:00>
+# ---

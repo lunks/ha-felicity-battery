@@ -1,0 +1,17 @@
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "dataList": [
+      {
+        "plantName": "Home",
+        "timeZone": "UTC-03:00",
+        "plantDeviceList": [
+          {
+            "deviceSn": "SN123456"
+          }
+        ]
+      }
+    ]
+  }
+}

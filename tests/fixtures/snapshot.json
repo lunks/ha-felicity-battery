@@ -1,0 +1,20 @@
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "battSoc": 87,
+    "battSoh": 99,
+    "battVolt": 51.2,
+    "battCurr": 12.5,
+    "bmsPower": 640,
+    "tempMax": 24.0,
+    "battCapacity": 100.0,
+    "dataTimeStr": "2026-06-08 14:30:00",
+    "BMSLCVolt": 56.0,
+    "BMSLDVolt": 44.8,
+    "BMSLCCurr": 50.0,
+    "BMSLDCurr": 50.0,
+    "bmsVoltageList": [3201, 3202, 3200, 3203, 3199, 3204, 3200, 3201, 32767, 32767],
+    "cellTempList": [23.5, 24.0, 23.8, 24.2, 3276.7, 3276.7]
+  }
+}

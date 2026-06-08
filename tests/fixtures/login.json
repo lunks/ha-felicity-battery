@@ -1,0 +1,7 @@
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "token": "test-jwt-token-abc123"
+  }
+}
