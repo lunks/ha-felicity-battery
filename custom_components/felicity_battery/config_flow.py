@@ -5,6 +5,7 @@ from __future__ import annotations
 import base64
 import logging
 import ssl
+from collections.abc import Mapping
 from typing import Any
 
 import aiohttp
@@ -38,6 +39,13 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): vol.All(
             int, vol.Range(min=10)
         ),
+    }
+)
+
+STEP_REAUTH_DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_USERNAME): str,
+        vol.Required(CONF_PASSWORD): str,
     }
 )
 
@@ -149,13 +157,16 @@ class FelicityBatteryConfigFlow(ConfigFlow, domain=DOMAIN):
                 elif len(devices) == 1:
                     # Auto-select the only device
                     device = devices[0]
-                    device_sn = device["deviceSn"]
-                    await self.async_set_unique_id(device_sn)
-                    self._abort_if_unique_id_configured()
-                    return self.async_create_entry(
-                        title=f"Felicity Battery {device.get('alias', device_sn)}",
-                        data={**user_input, CONF_DEVICE_SN: device_sn},
-                    )
+                    device_sn = device.get("deviceSn")
+                    if not device_sn:
+                        errors["base"] = "no_devices"
+                    else:
+                        await self.async_set_unique_id(device_sn)
+                        self._abort_if_unique_id_configured()
+                        return self.async_create_entry(
+                            title=f"Felicity Battery {device.get('alias', device_sn)}",
+                            data={**user_input, CONF_DEVICE_SN: device_sn},
+                        )
                 else:
                     return await self.async_step_device()
 
@@ -204,5 +215,111 @@ class FelicityBatteryConfigFlow(ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_DEVICE_SN): vol.In(device_options),
                 }
             ),
+            errors=errors,
+        )
+
+    async def _async_login_and_get_sn(
+        self, username: str, password: str
+    ) -> tuple[str | None, dict[str, str]]:
+        """Log in and resolve the account's first device SN.
+
+        Returns (device_sn, errors). On failure device_sn is None and errors
+        carries a base error key.
+        """
+        errors: dict[str, str] = {}
+        try:
+            session = async_get_clientsession(self.hass)
+            ssl_ctx = await self.hass.async_add_executor_job(get_ssl_context)
+            token = await async_login(session, username, password, ssl_ctx=ssl_ctx)
+            devices = await async_fetch_devices(session, token, ssl_ctx=ssl_ctx)
+        except ValueError:
+            return None, {"base": "invalid_auth"}
+        except aiohttp.ClientError:
+            return None, {"base": "cannot_connect"}
+        except Exception:  # noqa: BLE001
+            _LOGGER.exception("Unexpected error during login")
+            return None, {"base": "unknown"}
+
+        if not devices:
+            return None, {"base": "no_devices"}
+
+        device_sn = devices[0].get("deviceSn")
+        if not device_sn:
+            return None, {"base": "no_devices"}
+
+        return device_sn, errors
+
+    async def async_step_reauth(
+        self, entry_data: Mapping[str, Any]
+    ) -> ConfigFlowResult:
+        """Handle re-authentication when credentials become invalid."""
+        return await self.async_step_reauth_confirm()
+
+    async def async_step_reauth_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Confirm re-authentication with new credentials."""
+        errors: dict[str, str] = {}
+        reauth_entry = self._get_reauth_entry()
+
+        if user_input is not None:
+            device_sn, errors = await self._async_login_and_get_sn(
+                user_input[CONF_USERNAME], user_input[CONF_PASSWORD]
+            )
+            if device_sn is not None:
+                await self.async_set_unique_id(device_sn)
+                self._abort_if_unique_id_mismatch()
+                return self.async_update_reload_and_abort(
+                    reauth_entry,
+                    data_updates={
+                        CONF_USERNAME: user_input[CONF_USERNAME],
+                        CONF_PASSWORD: user_input[CONF_PASSWORD],
+                    },
+                )
+
+        return self.async_show_form(
+            step_id="reauth_confirm",
+            data_schema=STEP_REAUTH_DATA_SCHEMA,
+            description_placeholders={CONF_USERNAME: reauth_entry.data[CONF_USERNAME]},
+            errors=errors,
+        )
+
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle reconfiguration of credentials and scan interval."""
+        errors: dict[str, str] = {}
+        reconfigure_entry = self._get_reconfigure_entry()
+
+        if user_input is not None:
+            device_sn, errors = await self._async_login_and_get_sn(
+                user_input[CONF_USERNAME], user_input[CONF_PASSWORD]
+            )
+            if device_sn is not None:
+                await self.async_set_unique_id(device_sn)
+                self._abort_if_unique_id_mismatch()
+                return self.async_update_reload_and_abort(
+                    reconfigure_entry,
+                    data_updates={
+                        CONF_USERNAME: user_input[CONF_USERNAME],
+                        CONF_PASSWORD: user_input[CONF_PASSWORD],
+                        CONF_SCAN_INTERVAL: user_input[CONF_SCAN_INTERVAL],
+                    },
+                )
+
+        data = reconfigure_entry.data
+        schema = vol.Schema(
+            {
+                vol.Required(CONF_USERNAME, default=data[CONF_USERNAME]): str,
+                vol.Required(CONF_PASSWORD, default=data[CONF_PASSWORD]): str,
+                vol.Optional(
+                    CONF_SCAN_INTERVAL,
+                    default=data.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL),
+                ): vol.All(int, vol.Range(min=10)),
+            }
+        )
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=schema,
             errors=errors,
         )

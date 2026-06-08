@@ -16,6 +16,23 @@
         "data": {
           "device_sn": "Device"
         }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate with FSolar",
+        "description": "The credentials for {username} are no longer valid. Enter updated credentials to reconnect.",
+        "data": {
+          "username": "Username (email)",
+          "password": "Password"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure Felicity Battery",
+        "description": "Update the FSolar account credentials or polling interval.",
+        "data": {
+          "username": "Username (email)",
+          "password": "Password",
+          "scan_interval": "Update interval (seconds)"
+        }
       }
     },
     "error": {
@@ -25,7 +42,10 @@
       "unknown": "Unexpected error"
     },
     "abort": {
-      "already_configured": "Device is already configured"
+      "already_configured": "Device is already configured",
+      "reauth_successful": "Re-authentication was successful",
+      "reconfigure_successful": "Reconfiguration was successful",
+      "unique_id_mismatch": "The account does not contain the originally configured device"
     }
   },
   "entity": {

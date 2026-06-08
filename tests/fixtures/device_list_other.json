@@ -1,0 +1,13 @@
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "dataList": [
+      {
+        "deviceSn": "SN999999",
+        "alias": "Different Battery",
+        "deviceModel": "FLA24100-EU"
+      }
+    ]
+  }
+}

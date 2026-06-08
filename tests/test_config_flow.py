@@ -24,6 +24,16 @@ from .conftest import (
     register_fsolar,
 )
 
+REAUTH_INPUT = {
+    CONF_USERNAME: "new@example.com",
+    CONF_PASSWORD: "newpass",
+}
+RECONFIGURE_INPUT = {
+    CONF_USERNAME: "new@example.com",
+    CONF_PASSWORD: "newpass",
+    CONF_SCAN_INTERVAL: 30,
+}
+
 USER_INPUT = {
     CONF_USERNAME: "user@example.com",
     CONF_PASSWORD: "hunter2",
@@ -170,3 +180,102 @@ async def test_user_flow_duplicate_aborts(
     )
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "already_configured"
+
+
+async def test_reauth_success(
+    hass: HomeAssistant,
+    mock_fsolar: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Reauth re-logs-in and updates the stored credentials."""
+    mock_config_entry.add_to_hass(hass)
+
+    result = await mock_config_entry.start_reauth_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "reauth_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], REAUTH_INPUT
+    )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reauth_successful"
+    assert mock_config_entry.data[CONF_USERNAME] == "new@example.com"
+    assert mock_config_entry.data[CONF_PASSWORD] == "newpass"
+    # The device SN is unchanged.
+    assert mock_config_entry.data[CONF_DEVICE_SN] == DEVICE_SN
+
+
+async def test_reauth_invalid_auth(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """A failed reauth login shows the form again with an error."""
+    aioclient_mock.post(LOGIN_ENDPOINT, json={"code": 401, "message": "nope"})
+    mock_config_entry.add_to_hass(hass)
+
+    result = await mock_config_entry.start_reauth_flow(hass)
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], REAUTH_INPUT
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": "invalid_auth"}
+
+
+async def test_reauth_unique_id_mismatch(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Reauth that resolves a different device aborts with a mismatch."""
+    register_fsolar(aioclient_mock, device_list="device_list_other.json")
+    mock_config_entry.add_to_hass(hass)
+
+    result = await mock_config_entry.start_reauth_flow(hass)
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], REAUTH_INPUT
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "unique_id_mismatch"
+
+
+async def test_reconfigure_success(
+    hass: HomeAssistant,
+    mock_fsolar: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Reconfigure updates credentials and scan interval."""
+    mock_config_entry.add_to_hass(hass)
+
+    result = await mock_config_entry.start_reconfigure_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "reconfigure"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], RECONFIGURE_INPUT
+    )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reconfigure_successful"
+    assert mock_config_entry.data[CONF_USERNAME] == "new@example.com"
+    assert mock_config_entry.data[CONF_SCAN_INTERVAL] == 30
+
+
+async def test_reconfigure_unique_id_mismatch(
+    hass: HomeAssistant,
+    aioclient_mock: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Reconfigure resolving a different device aborts with a mismatch."""
+    register_fsolar(aioclient_mock, device_list="device_list_other.json")
+    mock_config_entry.add_to_hass(hass)
+
+    result = await mock_config_entry.start_reconfigure_flow(hass)
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], RECONFIGURE_INPUT
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "unique_id_mismatch"
