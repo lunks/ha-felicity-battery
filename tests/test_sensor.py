@@ -79,12 +79,26 @@ def test_cell_voltages_padding() -> None:
     assert volts[2] is None
 
 
-def test_cell_voltages_short_list_pads_none() -> None:
-    """A short list is padded with None up to the real cell count."""
+def test_cell_voltages_short_list() -> None:
+    """A short list yields only the cells present (no padding to a fixed count)."""
     volts = _cell_voltages({"bmsVoltageList": [3201, 3202]})
-    assert len(volts) == 8
-    assert volts[0] == 3.201
-    assert volts[2] is None
+    assert volts == [3.201, 3.202]
+
+
+def test_cell_voltages_large_pack_not_truncated() -> None:
+    """A pack with more than 8 cells is read in full, not truncated to 8."""
+    raw = [3200 + i for i in range(16)] + [32767, 32767]  # 16 real + padding
+    volts = _cell_voltages({"bmsVoltageList": raw})
+    real = [v for v in volts if v is not None]
+    assert len(real) == 16  # all 16 cells, not just the first 8
+    assert real[0] == 3.2
+    assert real[-1] == 3.215
+
+
+def test_cell_voltage_delta_large_pack() -> None:
+    """Delta spans every real cell in a larger pack."""
+    raw = [3200 + i for i in range(16)] + [32767]  # min 3.200, max 3.215
+    assert _cell_voltage_delta({"bmsVoltageList": raw}) == pytest.approx(0.015)
 
 
 def test_cell_voltage_delta() -> None:

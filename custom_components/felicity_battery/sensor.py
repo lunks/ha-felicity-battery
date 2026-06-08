@@ -29,8 +29,8 @@ from homeassistant.helpers.typing import StateType
 
 from .const import (
     CELL_PADDING_VALUE,
-    REAL_CELL_COUNT,
-    REAL_TEMP_COUNT,
+    MAX_CELL_COUNT,
+    MAX_TEMP_COUNT,
     TEMP_PADDING_VALUE,
 )
 from .coordinator import FelicityBatteryCoordinator
@@ -50,21 +50,22 @@ def _safe_float(value: Any) -> float | None:
 
 
 def _cell_voltages(data: dict[str, Any]) -> list[float | None]:
-    """Extract real cell voltages in V from mV list."""
+    """Extract per-cell voltages in V from the mV list.
+
+    The pack size is taken from the response array length (bounded by
+    MAX_CELL_COUNT), so larger models with more cells are handled without
+    truncation. Padding sentinels and unparseable values become None, with
+    positions preserved so cell numbering stays stable.
+    """
     voltages = data.get("bmsVoltageList", [])
     result: list[float | None] = []
-    for i in range(REAL_CELL_COUNT):
-        if i >= len(voltages):
-            result.append(None)
-            continue
+    for raw in voltages[:MAX_CELL_COUNT]:
         try:
-            mv = float(voltages[i])
-            if mv >= CELL_PADDING_VALUE:
-                result.append(None)
-            else:
-                result.append(round(mv / 1000, 3))
+            mv = float(raw)
         except (ValueError, TypeError):
             result.append(None)
+            continue
+        result.append(None if mv >= CELL_PADDING_VALUE else round(mv / 1000, 3))
     return result
 
 
@@ -97,21 +98,20 @@ def _cell_voltage_attrs(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def _cell_temps(data: dict[str, Any]) -> list[float | None]:
-    """Extract real cell temperatures."""
+    """Extract per-cell temperatures, dropping padding sentinels.
+
+    Sensor count comes from the response array length (bounded by
+    MAX_TEMP_COUNT), so models with more probes are handled without truncation.
+    """
     temps = data.get("cellTempList", [])
     result: list[float | None] = []
-    for i in range(REAL_TEMP_COUNT):
-        if i >= len(temps):
-            result.append(None)
-            continue
+    for raw in temps[:MAX_TEMP_COUNT]:
         try:
-            val = float(temps[i])
-            if val >= TEMP_PADDING_VALUE:
-                result.append(None)
-            else:
-                result.append(val)
+            val = float(raw)
         except (ValueError, TypeError):
             result.append(None)
+            continue
+        result.append(None if val >= TEMP_PADDING_VALUE else val)
     return result
 
 
