@@ -20,7 +20,7 @@ class FelicityBatteryEntity(CoordinatorEntity[FelicityBatteryCoordinator]):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.device_sn)},
             manufacturer="Felicity Solar",
-            model=coordinator.device_model or "FLA24100",
+            model=coordinator.device_model,
             name=coordinator.device_alias or f"Felicity {coordinator.device_sn}",
             serial_number=coordinator.device_sn,
         )

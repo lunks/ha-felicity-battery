@@ -1,6 +1,6 @@
 # Felicity Battery — Home Assistant
 
-Monitor Felicity Solar batteries (e.g. FLA24100) via the FSolar cloud API.
+Monitor Felicity Solar batteries via the FSolar cloud API.
 
 ## Install (HACS)
 
@@ -14,3 +14,7 @@ State of charge / health, voltage, current, power, capacity, temperature,
 per-cell voltages & temperatures, charge/discharge limits, and charging status.
 
 > Cloud polling via `shine-api.felicitysolar.com`. Default update interval: 60s.
+
+## Supported models
+
+- FLA24100-EU
