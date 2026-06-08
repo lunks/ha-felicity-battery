@@ -17,4 +17,4 @@ per-cell voltages & temperatures, charge/discharge limits, and charging status.
 
 ## Supported models
 
-- FLA24100-EU
+- FLA24100
