@@ -1,0 +1,11 @@
+{
+  "domain": "felicity_battery",
+  "name": "Felicity Battery",
+  "codeowners": ["@lunks"],
+  "config_flow": true,
+  "documentation": "https://github.com/lunks/ha-felicity-battery",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "requirements": ["aiohttp>=3.8.0", "cryptography>=41.0.0"],
+  "version": "1.0.0"
+}
