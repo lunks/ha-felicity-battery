@@ -27,7 +27,12 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 
-from .const import REAL_CELL_COUNT, REAL_TEMP_COUNT
+from .const import (
+    CELL_PADDING_VALUE,
+    REAL_CELL_COUNT,
+    REAL_TEMP_COUNT,
+    TEMP_PADDING_VALUE,
+)
 from .coordinator import FelicityBatteryCoordinator
 from .entity import FelicityBatteryEntity
 
@@ -54,7 +59,7 @@ def _cell_voltages(data: dict[str, Any]) -> list[float | None]:
             continue
         try:
             mv = float(voltages[i])
-            if mv >= 32767:
+            if mv >= CELL_PADDING_VALUE:
                 result.append(None)
             else:
                 result.append(round(mv / 1000, 3))
@@ -101,7 +106,7 @@ def _cell_temps(data: dict[str, Any]) -> list[float | None]:
             continue
         try:
             val = float(temps[i])
-            if val >= 3276.7:
+            if val >= TEMP_PADDING_VALUE:
                 result.append(None)
             else:
                 result.append(val)
