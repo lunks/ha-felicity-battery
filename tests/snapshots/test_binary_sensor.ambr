@@ -1,0 +1,15 @@
+# serializer version: 1
+# name: test_binary_sensor_states[binary_sensor.garage_battery_charging]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'battery_charging',
+      'friendly_name': 'Garage Battery Charging',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.garage_battery_charging',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---

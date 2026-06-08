@@ -1,4 +1,0 @@
-# serializer version: 1
-# name: test_binary_sensor_states[binary_sensor.garage_battery_charging]
-  <state binary_sensor.garage_battery_charging=on; device_class=battery_charging, friendly_name=Garage Battery Charging @ 2026-06-08T05:00:00-07:00>
-# ---

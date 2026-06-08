@@ -1,0 +1,174 @@
+# serializer version: 1
+# name: test_sensor_states[sensor.garage_battery_capacity]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'energy_storage',
+      'friendly_name': 'Garage Battery Capacity',
+      'icon': 'mdi:battery-high',
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': <UnitOfEnergy.KILO_WATT_HOUR: 'kWh'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_capacity',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '5.12',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_cell_voltage_delta]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'cell_1': 3.201,
+      'cell_2': 3.202,
+      'cell_3': 3.2,
+      'cell_4': 3.203,
+      'cell_5': 3.199,
+      'cell_6': 3.204,
+      'cell_7': 3.2,
+      'cell_8': 3.201,
+      'device_class': 'voltage',
+      'friendly_name': 'Garage Battery Cell Voltage Delta',
+      'icon': 'mdi:battery-sync',
+      'max_cell': 3.204,
+      'max_cell_number': 6,
+      'min_cell': 3.199,
+      'min_cell_number': 5,
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': <UnitOfElectricPotential.VOLT: 'V'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_cell_voltage_delta',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.005',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_charge_current_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_charge_voltage_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_current]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'current',
+      'friendly_name': 'Garage Battery Current',
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': <UnitOfElectricCurrent.AMPERE: 'A'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_current',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '12.5',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_discharge_current_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_discharge_voltage_limit]
+  None
+# ---
+# name: test_sensor_states[sensor.garage_battery_last_update]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': 'Garage Battery Last Update',
+      'icon': 'mdi:clock-check-outline',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_last_update',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '2026-06-08T17:30:00+00:00',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_power]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'power',
+      'friendly_name': 'Garage Battery Power',
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': <UnitOfPower.WATT: 'W'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_power',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '640.0',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_state_of_charge]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'battery',
+      'friendly_name': 'Garage Battery State of Charge',
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': '%',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_state_of_charge',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '87.0',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_state_of_health]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': 'Garage Battery State of Health',
+      'icon': 'mdi:battery-heart-variant',
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': '%',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_state_of_health',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '99.0',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_temperature]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'temperature',
+      'friendly_name': 'Garage Battery Temperature',
+      'sensor_1': 23.5,
+      'sensor_2': 24.0,
+      'sensor_3': 23.8,
+      'sensor_4': 24.2,
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_temperature',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '24.0',
+  })
+# ---
+# name: test_sensor_states[sensor.garage_battery_voltage]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'voltage',
+      'friendly_name': 'Garage Battery Voltage',
+      'state_class': <SensorStateClass.MEASUREMENT: 'measurement'>,
+      'unit_of_measurement': <UnitOfElectricPotential.VOLT: 'V'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.garage_battery_voltage',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '51.2',
+  })
+# ---

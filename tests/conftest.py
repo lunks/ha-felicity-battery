@@ -10,7 +10,9 @@ from pytest_homeassistant_custom_component.common import (
     MockConfigEntry,
     load_json_object_fixture,
 )
+from pytest_homeassistant_custom_component.syrupy import HomeAssistantSnapshotExtension
 from pytest_homeassistant_custom_component.test_util.aiohttp import AiohttpClientMocker
+from syrupy.assertion import SnapshotAssertion
 
 from custom_components.felicity_battery.const import (
     API_BASE_URL,
@@ -36,6 +38,17 @@ DEVICE_SN = "SN123456"
 def auto_enable_custom_integrations(enable_custom_integrations):
     """Enable loading of the custom integration in every test."""
     yield
+
+
+@pytest.fixture
+def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
+    """Use the Home Assistant snapshot extension.
+
+    This pins the serializer to HA's ``StateSnapshot`` format so snapshots are
+    deterministic and portable across machines (the default syrupy serializer
+    bakes in the local timezone and varies by plugin load order).
+    """
+    return snapshot.use_extension(HomeAssistantSnapshotExtension)
 
 
 @pytest.fixture(autouse=True)
