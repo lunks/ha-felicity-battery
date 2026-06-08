@@ -8,6 +8,10 @@
           "username": "Username (email)",
           "password": "Password",
           "scan_interval": "Update interval (seconds)"
+        },
+        "data_description": {
+          "username": "Your FSolar account email",
+          "scan_interval": "How often to poll, in seconds (min 10)"
         }
       },
       "device": {

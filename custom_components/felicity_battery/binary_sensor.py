@@ -18,6 +18,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from .coordinator import FelicityBatteryCoordinator
 from .entity import FelicityBatteryEntity
 
+PARALLEL_UPDATES = 0
+
 
 @dataclass(frozen=True, kw_only=True)
 class FelicityBinarySensorDescription(BinarySensorEntityDescription):

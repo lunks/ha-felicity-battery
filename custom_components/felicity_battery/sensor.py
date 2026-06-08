@@ -31,6 +31,8 @@ from .const import REAL_CELL_COUNT, REAL_TEMP_COUNT
 from .coordinator import FelicityBatteryCoordinator
 from .entity import FelicityBatteryEntity
 
+PARALLEL_UPDATES = 0
+
 
 def _safe_float(value: Any) -> float | None:
     """Safely convert a value to float, returning None if impossible."""
