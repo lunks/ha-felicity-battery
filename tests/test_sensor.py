@@ -47,6 +47,21 @@ async def test_sensor_states(
         assert state == snapshot(name=entry.entity_id)
 
 
+async def test_sensor_names_from_translation_keys(
+    hass: HomeAssistant,
+    mock_fsolar: AiohttpClientMocker,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Sensor names resolve from translation keys, not hard-coded names."""
+    mock_config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    state = hass.states.get("sensor.garage_battery_state_of_charge")
+    assert state is not None
+    assert state.attributes["friendly_name"] == "Garage Battery State of Charge"
+
+
 def test_safe_float() -> None:
     """_safe_float coerces or returns None."""
     assert _safe_float("3.5") == 3.5

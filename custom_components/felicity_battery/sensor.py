@@ -155,7 +155,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="state_of_charge",
         translation_key="state_of_charge",
-        name="State of Charge",
         native_unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.BATTERY,
         state_class=SensorStateClass.MEASUREMENT,
@@ -165,7 +164,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="state_of_health",
         translation_key="state_of_health",
-        name="State of Health",
         icon="mdi:battery-heart-variant",
         native_unit_of_measurement=PERCENTAGE,
         state_class=SensorStateClass.MEASUREMENT,
@@ -175,7 +173,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="voltage",
         translation_key="voltage",
-        name="Voltage",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
         state_class=SensorStateClass.MEASUREMENT,
@@ -185,7 +182,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="current",
         translation_key="current",
-        name="Current",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
         device_class=SensorDeviceClass.CURRENT,
         state_class=SensorStateClass.MEASUREMENT,
@@ -195,7 +191,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="power",
         translation_key="power",
-        name="Power",
         native_unit_of_measurement=UnitOfPower.WATT,
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
@@ -205,7 +200,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="temperature",
         translation_key="temperature",
-        name="Temperature",
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
@@ -216,7 +210,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="capacity",
         translation_key="capacity",
-        name="Capacity",
         icon="mdi:battery-high",
         device_class=SensorDeviceClass.ENERGY_STORAGE,
         state_class=SensorStateClass.MEASUREMENT,
@@ -228,7 +221,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="cell_voltage_delta",
         translation_key="cell_voltage_delta",
-        name="Cell Voltage Delta",
         icon="mdi:battery-sync",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
@@ -241,7 +233,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="charge_voltage_limit",
         translation_key="charge_voltage_limit",
-        name="Charge Voltage Limit",
         icon="mdi:battery-arrow-up",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
@@ -252,7 +243,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="discharge_voltage_limit",
         translation_key="discharge_voltage_limit",
-        name="Discharge Voltage Limit",
         icon="mdi:battery-arrow-down",
         native_unit_of_measurement=UnitOfElectricPotential.VOLT,
         device_class=SensorDeviceClass.VOLTAGE,
@@ -263,7 +253,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="charge_current_limit",
         translation_key="charge_current_limit",
-        name="Charge Current Limit",
         icon="mdi:battery-arrow-up",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
         device_class=SensorDeviceClass.CURRENT,
@@ -274,7 +263,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="discharge_current_limit",
         translation_key="discharge_current_limit",
-        name="Discharge Current Limit",
         icon="mdi:battery-arrow-down",
         native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
         device_class=SensorDeviceClass.CURRENT,
@@ -285,7 +273,6 @@ SENSOR_DESCRIPTIONS: tuple[FelicitySensorDescription, ...] = (
     FelicitySensorDescription(
         key="last_update",
         translation_key="last_update",
-        name="Last Update",
         icon="mdi:clock-check-outline",
         device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,

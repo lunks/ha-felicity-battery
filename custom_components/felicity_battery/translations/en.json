@@ -1,0 +1,71 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Felicity Battery",
+        "description": "Connect to a Felicity Solar battery via the FSolar cloud API.",
+        "data": {
+          "username": "Username (email)",
+          "password": "Password",
+          "scan_interval": "Update interval (seconds)"
+        }
+      },
+      "device": {
+        "title": "Select Device",
+        "description": "Choose the device to monitor.",
+        "data": {
+          "device_sn": "Device"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate with FSolar",
+        "description": "The credentials for {username} are no longer valid. Enter updated credentials to reconnect.",
+        "data": {
+          "username": "Username (email)",
+          "password": "Password"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure Felicity Battery",
+        "description": "Update the FSolar account credentials or polling interval.",
+        "data": {
+          "username": "Username (email)",
+          "password": "Password",
+          "scan_interval": "Update interval (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to FSolar API",
+      "invalid_auth": "Invalid username or password",
+      "no_devices": "No devices found in your account",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "Device is already configured",
+      "reauth_successful": "Re-authentication was successful",
+      "reconfigure_successful": "Reconfiguration was successful",
+      "unique_id_mismatch": "The account does not contain the originally configured device"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "state_of_charge": { "name": "State of Charge" },
+      "state_of_health": { "name": "State of Health" },
+      "voltage": { "name": "Voltage" },
+      "current": { "name": "Current" },
+      "power": { "name": "Power" },
+      "temperature": { "name": "Temperature" },
+      "capacity": { "name": "Capacity" },
+      "cell_voltage_delta": { "name": "Cell Voltage Delta" },
+      "charge_voltage_limit": { "name": "Charge Voltage Limit" },
+      "discharge_voltage_limit": { "name": "Discharge Voltage Limit" },
+      "charge_current_limit": { "name": "Charge Current Limit" },
+      "discharge_current_limit": { "name": "Discharge Current Limit" },
+      "last_update": { "name": "Last Update" }
+    },
+    "binary_sensor": {
+      "charging": { "name": "Charging" }
+    }
+  }
+}
